@@ -1,16 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { ConvexClientProvider } from "./ConvexClientProvider";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import Link from "next/link";
+import { ThemeProvider } from "@/components/theme-provider"
+import { ModeToggle } from "@/components/themeToggle";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,11 +18,31 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body>
+      <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+      
+      <header className="">
+      <Link href='/' className="m-2">Dashboard</Link>
+      <Link href='/users' className="m-2">Users</Link>
+      <Link href='/about' className="m-2">About</Link>
+      <ModeToggle/>
+      </header>
+
+      <main>
+      <ConvexClientProvider>{children}</ConvexClientProvider>
+      <Toaster position="bottom-right" /> 
+      </main>
+
+    <footer className="mt-10">
+      footer
+    </footer>
+    </ThemeProvider>
+    </body>
     </html>
   );
 }
