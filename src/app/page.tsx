@@ -1,12 +1,10 @@
-import AccessLogsAnalytics from "@/components/AccessLogsAnalytics";
-import LogsPage from "@/components/LogsPage";
+import TabComponent from "@/components/TabComponent";
 
 export default function Home() {
   return (
     <div>
           <div >
-          <LogsPage/>       
-          <AccessLogsAnalytics/>
+          <TabComponent />    
           </div>
     </div>
   );

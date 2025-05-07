@@ -14,6 +14,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as addAccessLog from "../addAccessLog.js";
+import type * as editUser from "../editUser.js";
 import type * as getAccessLogs from "../getAccessLogs.js";
 import type * as users from "../users.js";
 
@@ -27,6 +28,7 @@ import type * as users from "../users.js";
  */
 declare const fullApi: ApiFromModules<{
   addAccessLog: typeof addAccessLog;
+  editUser: typeof editUser;
   getAccessLogs: typeof getAccessLogs;
   users: typeof users;
 }>;
