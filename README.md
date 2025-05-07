@@ -1,24 +1,16 @@
 # NusTAC Admin Portal
 
 <div align="center">
-  <div className="flex items-center space-x-2">
-            <div className="h-10 w-10 rounded-md bg-blue flex items-center justify-center text-primary-foreground font-bold text-xl">
-              NT
-            </div>
-    <h3 align="center">Secure Campus Access Management - Admin Dashboard</h3>
-
-  <p align="center">
-    A secure, modern admin dashboard for managing campus access control at NUST
-    <br />
-    <a href="https://admin-portal.vercel.app"><strong>View Demo »</strong></a>
-    <br />
-    <br />
-    <a href="#key-features">Features</a> ·
-    <a href="#technology-stack">Tech Stack</a> ·
-    <a href="#getting-started">Getting Started</a> ·
-    <a href="#screenshots">Screenshots</a>
-  </p>
+  <img src="https://raw.githubusercontent.com/ali-abdullah9/admin-portal/main/public/logo.png" alt="NT" width="80" height="80" style="background-color:#3b82f6;color:white;font-weight:bold;font-size:28px;display:flex;align-items:center;justify-content:center;border-radius:8px;margin:0 auto;">
 </div>
+
+## Secure Campus Access Management - Admin Dashboard
+
+A secure, modern admin dashboard for managing campus access control at NUST
+
+**[View Demo »](https://admin-portal.vercel.app)**
+
+[Features](#key-features) · [Tech Stack](#technology-stack) · [Getting Started](#getting-started) · [Screenshots](#screenshots)
 
 ## Overview
 
@@ -130,16 +122,14 @@ The admin portal is restricted to authorized administrators using a secure authe
 
 ## Screenshots
 
-<div align="center">
-  <img src="https://raw.githubusercontent.com/ali-abdullah9/admin-portal/main/public/Dashboard-AccessLogs.png" alt="Dashboard" width="800" />
-  <p><em>Dashboard view with analytics</em></p>
-  
-  <img src="https://raw.githubusercontent.com/ali-abdullah9/admin-portal/main/public/screenshots/users.png" alt="User Management" width="800" />
-  <p><em>User management interface</em></p>
-  
-  <img src="https://raw.githubusercontent.com/ali-abdullah9/admin-portal/main/public/screenshots/logs.png" alt="Access Logs" width="800" />
-  <p><em>Access logs with filtering</em></p>
-</div>
+![Dashboard view with analytics](https://raw.githubusercontent.com/ali-abdullah9/admin-portal/main/public/screenshots/dashboard.png)
+*Dashboard view with analytics*
+
+![User management interface](https://raw.githubusercontent.com/ali-abdullah9/admin-portal/main/public/screenshots/users.png)
+*User management interface*
+
+![Access logs with filtering](https://raw.githubusercontent.com/ali-abdullah9/admin-portal/main/public/screenshots/logs.png)
+*Access logs with filtering*
 
 ## Integration with Other NusTAC Components
 
