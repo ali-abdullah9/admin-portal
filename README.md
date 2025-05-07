@@ -1,7 +1,7 @@
 # NusTAC Admin Portal
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/ali-abdullah9/admin-portal/main/public/logo.png" alt="NT" width="80" height="80" style="background-color:#3b82f6;color:white;font-weight:bold;font-size:28px;display:flex;align-items:center;justify-content:center;border-radius:8px;margin:0 auto;">
+  <img src="https://raw.githubusercontent.com/ali-abdullah9/admin-portal/public/logo.png" alt="NT" width="80" height="80" style="background-color:#3b82f6;color:white;font-weight:bold;font-size:28px;display:flex;align-items:center;justify-content:center;border-radius:8px;margin:0 auto;">
 </div>
 
 ## Secure Campus Access Management - Admin Dashboard
@@ -122,7 +122,7 @@ The admin portal is restricted to authorized administrators using a secure authe
 
 ## Screenshots
 
-![Dashboard view with analytics](https://raw.githubusercontent.com/ali-abdullah9/admin-portal/main/public/screenshots/dashboard.png)
+![Dashboard view with analytics](https://raw.githubusercontent.com/ali-abdullah9/admin-portal/public/screenshots/dashboard.png)
 *Dashboard view with analytics*
 
 ![User management interface](https://raw.githubusercontent.com/ali-abdullah9/admin-portal/main/public/screenshots/users.png)
