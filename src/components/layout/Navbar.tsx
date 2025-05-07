@@ -37,7 +37,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           {/* Logo and Brand */}
           <div className="flex items-center space-x-2">
-            <div className="h-10 w-10 rounded-md bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl">
+            <div className="h-10 w-10 rounded-md bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl dark:text-white">
               NT
             </div>
             <div>
@@ -67,12 +67,12 @@ export default function Navbar() {
               Users
             </Link>
             <Link
-              href="/logs"
+              href="/contact"
               className={`px-3 py-2 rounded-md text-sm font-medium hover:bg-primary/10 transition-colors ${
                 pathname === "/logs" ? "text-primary" : ""
               }`}
             >
-              Access Logs
+              Contact Us
             </Link>
             <Link
               href="/about"
@@ -142,12 +142,12 @@ export default function Navbar() {
               Users
             </Link>
             <Link
-              href="/logs"
+              href="/contact"
               className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-primary/10 transition-colors ${
-                pathname === "/logs" ? "text-primary" : ""
+                pathname === "/contact" ? "text-primary" : ""
               }`}
             >
-              Access Logs
+              Contact Us
             </Link>
             <Link
               href="/about"

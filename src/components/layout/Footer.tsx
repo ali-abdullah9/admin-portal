@@ -113,7 +113,7 @@ export default function Footer() {
                   <a href="https://github.com/rehan-hdr" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                     <Github size={16} />
                   </a>
-                  <a href="www.linkedin.com/in/rehan-haider-28867828a" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                  <a href="https://www.linkedin.com/in/rehan-haider-28867828a" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                     <Linkedin size={16} />
                   </a>
                   <a href="https://www.instagram.com/rehanhaider.0/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
