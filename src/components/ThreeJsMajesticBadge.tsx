@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 
 const ThreeJsMajesticBadge = () => {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);  // Updated type
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -140,29 +140,6 @@ const ThreeJsMajesticBadge = () => {
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
 
-    // Create energy rings
-    function createEnergyRing(radius, color) {
-      const geometry = new THREE.TorusGeometry(radius, 0.03, 8, 128);
-      const material = new THREE.MeshBasicMaterial({
-        color: color,
-        transparent: true,
-        opacity: 0.4,
-        wireframe: true
-      });
-      return new THREE.Mesh(geometry, material);
-    }
-    
-    const rings = [];
-    const ringColors = [0x4287f5, 0x3b82f6, 0x0066ff];
-    
-    for (let i = 0; i < 3; i++) {
-      const ring = createEnergyRing(i * 1 + 3, ringColors[i % ringColors.length]);
-      ring.rotation.x = Math.PI / 4 + i * 0.2;
-      ring.rotation.y = i * 0.3;
-      rings.push(ring);
-      scene.add(ring);
-    }
-
     // Lighting
     const ambientLight = new THREE.AmbientLight(0x404040, 1);
     scene.add(ambientLight);
@@ -185,7 +162,7 @@ const ThreeJsMajesticBadge = () => {
     const targetRotation = { x: 0, y: 0 };
     const currentRotation = { x: 0, y: 0 };
     
-    const handleMouseMove = (event) => {
+    const handleMouseMove = (event: MouseEvent) => {  // Type the event parameter
       if (!containerRef.current) return;
       
       const rect = containerRef.current.getBoundingClientRect();
@@ -197,6 +174,31 @@ const ThreeJsMajesticBadge = () => {
     };
     
     window.addEventListener('mousemove', handleMouseMove);
+
+    // Initialize the rings array
+    const rings = [] as Array<ReturnType<typeof createEnergyRing>>;
+
+    // Create energy rings
+    function createEnergyRing(radius: number, color: number) {
+      const geometry = new THREE.TorusGeometry(radius, 0.03, 8, 128);
+      const material = new THREE.MeshBasicMaterial({
+        color: color,
+        transparent: true,
+        opacity: 0.4,
+        wireframe: true
+      });
+      return new THREE.Mesh(geometry, material);
+    }
+    
+    const ringColors = [0x4287f5, 0x3b82f6, 0x0066ff];
+    
+    for (let i = 0; i < 3; i++) {
+      const ring = createEnergyRing(i * 1 + 3, ringColors[i % ringColors.length]);
+      ring.rotation.x = Math.PI / 4 + i * 0.2;
+      ring.rotation.y = i * 0.3;
+      rings.push(ring);
+      scene.add(ring);
+    }
 
     // Animation variables
     let time = 0;
@@ -218,7 +220,7 @@ const ThreeJsMajesticBadge = () => {
       particlesMesh.rotation.y = time * 0.1;
       
       // Animate rings
-      rings.forEach((ring, i) => {
+      rings.forEach((ring, i) => {  // Now TypeScript knows that 'ring' is of type THREE.Mesh
         ring.rotation.z = time * 0.2 * (i % 2 ? 1 : -1);
       });
       
