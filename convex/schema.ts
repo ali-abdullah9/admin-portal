@@ -31,6 +31,7 @@ export default defineSchema({
       v.literal("Lab Instructors"),
       v.literal("Intern")
     ),
+    password: v.optional(v.string()), // Optional password field for user authentication
     access: v.array(v.string()), // Classes user has access to
   }).index("by_cmsId", ["cmsId"]), // Index to query by CMS ID
 
