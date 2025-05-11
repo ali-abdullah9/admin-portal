@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useState, useEffect, useCallback } from "react";
 import { useQuery, useMutation } from "convex/react";
+import { motion, AnimatePresence } from "framer-motion";
 import { api } from "../../convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,9 +39,9 @@ import { User, Department, Role } from "@/types/user";
 import { Id } from "../../convex/_generated/dataModel";
 import { toast } from "sonner";
 import { UserDetailModal } from "@/components/UserDetailModal";
-import { Eye, Pencil, Trash } from "lucide-react";
+import { Eye, Pencil, Trash, UserPlus, Filter, X } from "lucide-react";
 
-// Make sure this matches the server-side type
+// Same type definitions as before...
 type FilterState = {
   cmsId: string;
   fullName: string;
@@ -49,7 +50,7 @@ type FilterState = {
   role?: Role;
 };
 
-// Debounce hook for input fields
+// Debounce hook
 function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
@@ -74,6 +75,28 @@ const departments: Department[] = [
 const roles: Role[] = [
   "Teacher", "Student", "Admin", "Lab Instructors", "Intern"
 ];
+
+// Animation variants for filter section
+const filterSectionVariants = {
+  hidden: { opacity: 0, y: -20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { 
+      duration: 0.5,
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.3 }
+  }
+};
 
 type UserFormProps = {
   user?: User;
@@ -121,7 +144,13 @@ function UserForm({ user, onClose, onSubmit, title }: UserFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <motion.form 
+      onSubmit={handleSubmit} 
+      className="space-y-4"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3 }}
+    >
       <DialogHeader>
         <DialogTitle>{title}</DialogTitle>
         <DialogDescription>
@@ -132,7 +161,12 @@ function UserForm({ user, onClose, onSubmit, title }: UserFormProps) {
       </DialogHeader>
 
       <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-4 items-center gap-4">
+        <motion.div 
+          className="grid grid-cols-4 items-center gap-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
           <label htmlFor="fullName" className="text-right">
             Full Name
           </label>
@@ -143,9 +177,14 @@ function UserForm({ user, onClose, onSubmit, title }: UserFormProps) {
             className="col-span-3"
             required
           />
-        </div>
+        </motion.div>
         
-        <div className="grid grid-cols-4 items-center gap-4">
+        <motion.div 
+          className="grid grid-cols-4 items-center gap-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
           <label htmlFor="cmsId" className="text-right">
             CMS ID
           </label>
@@ -156,9 +195,14 @@ function UserForm({ user, onClose, onSubmit, title }: UserFormProps) {
             className="col-span-3"
             required
           />
-        </div>
+        </motion.div>
         
-        <div className="grid grid-cols-4 items-center gap-4">
+        <motion.div 
+          className="grid grid-cols-4 items-center gap-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
           <label htmlFor="email" className="text-right">
             Email
           </label>
@@ -170,9 +214,14 @@ function UserForm({ user, onClose, onSubmit, title }: UserFormProps) {
             className="col-span-3"
             required
           />
-        </div>
+        </motion.div>
         
-        <div className="grid grid-cols-4 items-center gap-4">
+        <motion.div 
+          className="grid grid-cols-4 items-center gap-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
           <label htmlFor="dept" className="text-right">
             Department
           </label>
@@ -191,9 +240,14 @@ function UserForm({ user, onClose, onSubmit, title }: UserFormProps) {
               ))}
             </SelectContent>
           </Select>
-        </div>
+        </motion.div>
         
-        <div className="grid grid-cols-4 items-center gap-4">
+        <motion.div 
+          className="grid grid-cols-4 items-center gap-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
           <label htmlFor="role" className="text-right">
             Role
           </label>
@@ -212,9 +266,14 @@ function UserForm({ user, onClose, onSubmit, title }: UserFormProps) {
               ))}
             </SelectContent>
           </Select>
-        </div>
+        </motion.div>
         
-        <div className="grid grid-cols-4 items-center gap-4">
+        <motion.div 
+          className="grid grid-cols-4 items-center gap-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+        >
           <label htmlFor="access" className="text-right">
             Access
           </label>
@@ -232,36 +291,52 @@ function UserForm({ user, onClose, onSubmit, title }: UserFormProps) {
             </div>
             <div className="flex flex-wrap gap-2 mt-2">
               {formData.access.map((item, index) => (
-                <Badge key={index} variant="secondary" className="flex items-center gap-1">
-                  {item}
-                  <button
-                    type="button"
-                    onClick={() => removeAccess(index)}
-                    className="ml-1 rounded-full w-4 h-4 flex items-center justify-center hover:bg-muted-foreground/20"
-                  >
-                    ×
-                  </button>
-                </Badge>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.2 }}
+                  key={index}
+                >
+                  <Badge variant="secondary" className="flex items-center gap-1">
+                    {item}
+                    <button
+                      type="button"
+                      onClick={() => removeAccess(index)}
+                      className="ml-1 rounded-full w-4 h-4 flex items-center justify-center hover:bg-muted-foreground/20"
+                    >
+                      ×
+                    </button>
+                  </Badge>
+                </motion.div>
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <DialogFooter>
         <Button type="button" variant="outline" onClick={onClose}>
           Cancel
         </Button>
-        <Button type="submit">
-          {user ? "Update User" : "Add User"}
+        <Button type="submit" className="relative overflow-hidden group">
+          <span className="relative z-10">
+            {user ? "Update User" : "Add User"}
+          </span>
+          <motion.div
+            className="absolute inset-0 bg-primary/10"
+            initial={{ x: "-100%" }}
+            animate={{ x: "0%" }}
+            transition={{ duration: 0.5 }}
+          />
         </Button>
       </DialogFooter>
-    </form>
+    </motion.form>
   );
 }
 
 export function UsersPage() {
-  // State for filters
+  // States for filters and modals (unchanged)
   const [inputFilter, setInputFilter] = useState<FilterState>({
     cmsId: "",
     fullName: "",
@@ -270,10 +345,9 @@ export function UsersPage() {
     role: undefined,
   });
   
-  // Debounce filter values to prevent too many queries
+  const [showFilters, setShowFilters] = useState(false);
   const debouncedFilter = useDebounce(inputFilter, 500);
   
-  // Modal states
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -281,64 +355,52 @@ export function UsersPage() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   
   // Mutations
-  // Make sure these match your actual Convex function names
   const createUser = useMutation(api.users.addUser);
   const updateUser = useMutation(api.users.updateUser);
   const deleteUser = useMutation(api.users.deleteUser);
 
-  // Define all handler functions before using them in the columns definition
-  
-  // Handle view user button click
+  // Handler functions (reused from original)
   const handleViewUser = useCallback((user: User) => {
     setSelectedUser(user);
     setIsDetailModalOpen(true);
   }, []);
 
-  // Handle add user button click
   const handleAddUserClick = useCallback(() => {
     setIsAddUserOpen(true);
   }, []);
 
-  // Handle edit user button click
   const handleEditUser = useCallback((user: User) => {
     setSelectedUser(user);
     setIsEditUserOpen(true);
   }, []);
 
-  // Handle delete user button click
   const handleDeleteUser = useCallback((user: User) => {
     setSelectedUser(user);
     setIsDeleteDialogOpen(true);
   }, []);
 
-  // Handle user view from detail modal
   const handleEditFromDetailModal = useCallback(() => {
     setIsDetailModalOpen(false);
     setIsEditUserOpen(true);
   }, []);
 
-  // Handle delete from detail modal
   const handleDeleteFromDetailModal = useCallback(() => {
     setIsDetailModalOpen(false);
     setIsDeleteDialogOpen(true);
   }, []);
 
-  // Handle filter changes
   const handleFilterChange = useCallback((key: keyof FilterState, value: string | undefined) => {
     if (key === 'dept') {
-      // Type narrowing for department
       setInputFilter((prevState) => ({
         ...prevState,
         [key]: value as Department | undefined,
       }));
     } else if (key === 'role') {
-      // Type narrowing for role
       setInputFilter((prevState) => ({
         ...prevState,
         [key]: value as Role | undefined,
       }));
     } else {
-      // Regular string fields
       setInputFilter((prevState) => ({
         ...prevState,
         [key]: value,
@@ -356,7 +418,7 @@ export function UsersPage() {
     });
   }, []);
 
-  // Handle add user submit
+  // Submit handlers (reused from original)
   const handleAddUserSubmit = useCallback(async (userData: Omit<User, "_id" | "_creationTime">) => {
     try {
       await createUser(userData);
@@ -371,7 +433,6 @@ export function UsersPage() {
     }
   }, [createUser]);
 
-  // Handle edit user submit
   const handleEditUserSubmit = useCallback(async (userData: Omit<User, "_id" | "_creationTime">) => {
     if (!selectedUser?._id) return;
     
@@ -392,7 +453,6 @@ export function UsersPage() {
     }
   }, [updateUser, selectedUser]);
 
-  // Handle delete user confirm
   const handleDeleteUserConfirm = useCallback(async () => {
     if (!selectedUser?._id) return;
     
@@ -410,7 +470,7 @@ export function UsersPage() {
     }
   }, [deleteUser, selectedUser]);
 
-  // Define columns for the data table with proper typing
+  // Table columns
   const columns = React.useMemo<ColumnDef<User>[]>(() => [
     {
       accessorKey: "fullName",
@@ -475,28 +535,34 @@ export function UsersPage() {
               variant="ghost" 
               size="sm"
               onClick={() => handleViewUser(row.original)}
-              className="text-blue-500 hover:text-blue-700 hover:bg-blue-100"
+              className="text-blue-500 hover:text-blue-700 hover:bg-blue-100 transition-colors"
               title="View Details"
             >
-              <Eye className="h-4 w-4" />
+              <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>
+                <Eye className="h-4 w-4" />
+              </motion.div>
             </Button>
             <Button 
               variant="ghost" 
               size="sm"
               onClick={() => handleEditUser(row.original)}
-              className="text-amber-500 hover:text-amber-700 hover:bg-amber-100"
+              className="text-amber-500 hover:text-amber-700 hover:bg-amber-100 transition-colors"
               title="Edit User"
             >
-              <Pencil className="h-4 w-4" />
+              <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>
+                <Pencil className="h-4 w-4" />
+              </motion.div>
             </Button>
             <Button 
               variant="ghost" 
               size="sm" 
-              className="text-red-500 hover:text-red-700 hover:bg-red-100"
+              className="text-red-500 hover:text-red-700 hover:bg-red-100 transition-colors"
               onClick={() => handleDeleteUser(row.original)}
               title="Delete User"
             >
-              <Trash className="h-4 w-4" />
+              <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>
+                <Trash className="h-4 w-4" />
+              </motion.div>
             </Button>
           </div>
         );
@@ -504,110 +570,236 @@ export function UsersPage() {
     },
   ], [handleViewUser, handleEditUser, handleDeleteUser]);
 
-  // Fetch users using Convex query with debounced filter
+  // Fetch users using Convex query
   const usersData = useQuery(api.users.getUsers, debouncedFilter);
-  // Type assertion to help TypeScript understand the structure
   const users = usersData as User[] | undefined;
 
   // Handle loading state
   if (users === undefined) {
-    return <div className="p-8 text-center">Loading users...</div>;
+    return (
+      <div className="p-8 h-96 flex flex-col items-center justify-center">
+        <motion.div
+          animate={{ 
+            rotate: 360,
+            scale: [1, 1.1, 1],
+          }}
+          transition={{ 
+            rotate: { duration: 1.5, repeat: Infinity, ease: "linear" },
+            scale: { duration: 1, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
+          }}
+          className="w-12 h-12 border-4 border-primary rounded-full border-t-transparent mb-4"
+        />
+        <motion.p 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="text-muted-foreground"
+        >
+          Loading users...
+        </motion.p>
+      </div>
+    );
   }
 
   return (
-    <div className="p-8">
-      <h2 className="text-2xl font-bold mb-6">User Management</h2>
+    <motion.div 
+      className="bg-card/30 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-primary/20"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.div 
+        className="flex flex-col md:flex-row md:items-center justify-between mb-6 space-y-4 md:space-y-0"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <motion.h2 
+          className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-700 dark:from-primary dark:to-blue-400 bg-clip-text text-transparent"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
+          User Management
+        </motion.h2>
+
+        <div className="flex space-x-3">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button 
+              variant="outline" 
+              onClick={() => setShowFilters(!showFilters)}
+              className="gap-2"
+            >
+              <Filter className="h-4 w-4" />
+              {showFilters ? "Hide Filters" : "Show Filters"}
+            </Button>
+          </motion.div>
+          
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button 
+              onClick={handleAddUserClick}
+              className="gap-2 relative overflow-hidden group"
+            >
+              <span className="relative z-10 flex items-center">
+                <UserPlus className="h-4 w-4 mr-2" />
+                <span>Add New User</span>
+              </span>
+              <motion.div
+                className="absolute inset-0 bg-primary/20" 
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "0%" }}
+                transition={{ duration: 0.4 }}
+              />
+            </Button>
+          </motion.div>
+        </div>
+      </motion.div>
 
       {/* Filter Section */}
-      <div className="mb-6 space-y-4">
-        <div className="flex flex-wrap gap-4">
-          <Input
-            placeholder="Filter by CMS ID"
-            value={inputFilter.cmsId}
-            onChange={(e) => handleFilterChange("cmsId", e.target.value)}
-            className="max-w-xs"
-          />
-          <Input
-            placeholder="Filter by Name"
-            value={inputFilter.fullName}
-            onChange={(e) => handleFilterChange("fullName", e.target.value)}
-            className="max-w-xs"
-          />
-          <Input
-            placeholder="Filter by Email"
-            value={inputFilter.email}
-            onChange={(e) => handleFilterChange("email", e.target.value)}
-            className="max-w-xs"
-          />
-          
-          <Select
-            value={inputFilter.dept || ""}
-            onValueChange={(value) => {
-              // Handle the special "all-depts" case
-              if (value === "all-depts") {
-                handleFilterChange("dept", undefined);
-              } else {
-                handleFilterChange("dept", value as Department);
-              }
-            }}
+      <AnimatePresence>
+        {showFilters && (
+          <motion.div 
+            className="mb-6 p-4 bg-card/30 backdrop-blur-sm rounded-lg border border-border/50 shadow-sm"
+            variants={filterSectionVariants}
+            initial="hidden"
+            animate="visible"
+            exit={{ opacity: 0, height: 0, marginBottom: 0 }}
           >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Department" />
-            </SelectTrigger>
-            <SelectContent>
-              {/* Use a non-empty string for "All" option */}
-              <SelectItem value="all-depts">All Departments</SelectItem>
-              {departments.map((dept) => (
-                <SelectItem key={dept} value={dept}>
-                  {dept}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          
-          <Select
-            value={inputFilter.role || ""}
-            onValueChange={(value) => {
-              // Handle the special "all-roles" case
-              if (value === "all-roles") {
-                handleFilterChange("role", undefined);
-              } else {
-                handleFilterChange("role", value as Role);
-              }
-            }}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Role" />
-            </SelectTrigger>
-            <SelectContent>
-              {/* Use a non-empty string for "All" option */}
-              <SelectItem value="all-roles">All Roles</SelectItem>
-              {roles.map((role) => (
-                <SelectItem key={role} value={role}>
-                  {role}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          
-          <Button variant="outline" onClick={clearFilters}>
-            Clear Filters
-          </Button>
-          
-          <Button className="ml-auto" onClick={handleAddUserClick}>
-            Add New User
-          </Button>
-        </div>
-      </div>
+            <div className="flex justify-between items-center mb-4">
+              <motion.h3 
+                className="text-lg font-medium"
+                variants={itemVariants}
+              >
+                Filter Users
+              </motion.h3>
+              <motion.div variants={itemVariants}>
+                <Button variant="ghost" size="sm" onClick={clearFilters} className="gap-1">
+                  <X className="h-4 w-4" />
+                  Clear
+                </Button>
+              </motion.div>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <motion.div variants={itemVariants}>
+                <Input
+                  placeholder="Filter by CMS ID"
+                  value={inputFilter.cmsId}
+                  onChange={(e) => handleFilterChange("cmsId", e.target.value)}
+                  className="w-full"
+                />
+              </motion.div>
+              
+              <motion.div variants={itemVariants}>
+                <Input
+                  placeholder="Filter by Name"
+                  value={inputFilter.fullName}
+                  onChange={(e) => handleFilterChange("fullName", e.target.value)}
+                  className="w-full"
+                />
+              </motion.div>
+              
+              <motion.div variants={itemVariants}>
+                <Input
+                  placeholder="Filter by Email"
+                  value={inputFilter.email}
+                  onChange={(e) => handleFilterChange("email", e.target.value)}
+                  className="w-full"
+                />
+              </motion.div>
+              
+              <motion.div variants={itemVariants}>
+                <Select
+                  value={inputFilter.dept || ""}
+                  onValueChange={(value) => {
+                    if (value === "all-depts") {
+                      handleFilterChange("dept", undefined);
+                    } else {
+                      handleFilterChange("dept", value as Department);
+                    }
+                  }}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Department" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all-depts">All Departments</SelectItem>
+                    {departments.map((dept) => (
+                      <SelectItem key={dept} value={dept}>
+                        {dept}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </motion.div>
+              
+              <motion.div variants={itemVariants}>
+                <Select
+                  value={inputFilter.role || ""}
+                  onValueChange={(value) => {
+                    if (value === "all-roles") {
+                      handleFilterChange("role", undefined);
+                    } else {
+                      handleFilterChange("role", value as Role);
+                    }
+                  }}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all-roles">All Roles</SelectItem>
+                    {roles.map((role) => (
+                      <SelectItem key={role} value={role}>
+                        {role}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Display no results message if needed */}
       {users?.length === 0 ? (
-        <div className="text-center py-10 border rounded-md">
-          No users found matching the current filters
-        </div>
+        <motion.div 
+          className="text-center py-16 border rounded-md bg-card/30 backdrop-blur-sm"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <motion.div 
+            className="text-6xl mb-4 text-muted-foreground/30 mx-auto"
+            animate={{ 
+              scale: [1, 1.05, 1],
+              rotate: [0, 5, -5, 0]
+            }}
+            transition={{ 
+              duration: 4, 
+              repeat: Infinity,
+              repeatType: "reverse"
+            }}
+          >
+            🔍
+          </motion.div>
+          <p className="text-lg font-medium text-muted-foreground">No users found matching the current filters</p>
+        </motion.div>
       ) : (
         /* Data Table */
-        <div className="rounded-md border">
+        <motion.div 
+          className=" overflow"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
           <DataTable<User>
             data={users || []}
             columns={columns}
@@ -617,12 +809,12 @@ export function UsersPage() {
               order: "asc",
             }}
           />
-        </div>
+        </motion.div>
       )}
 
       {/* Add User Modal */}
       <Dialog open={isAddUserOpen} onOpenChange={setIsAddUserOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] bg-card/95 backdrop-blur-lg">
           <UserForm
             title="Add New User"
             onClose={() => setIsAddUserOpen(false)}
@@ -633,7 +825,7 @@ export function UsersPage() {
 
       {/* Edit User Modal */}
       <Dialog open={isEditUserOpen} onOpenChange={setIsEditUserOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] bg-card/95 backdrop-blur-lg">
           {selectedUser && (
             <UserForm
               title="Edit User"
@@ -662,29 +854,46 @@ export function UsersPage() {
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the user
-              {selectedUser && ` "${selectedUser.fullName}"`} and remove their data 
-              from the server.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => {
-              setIsDeleteDialogOpen(false);
-              setSelectedUser(null);
-            }}>
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteUserConfirm}>
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
+        <AlertDialogContent className="bg-card/95 backdrop-blur-lg">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete the user
+                {selectedUser && ` "${selectedUser.fullName}"`} and remove their data 
+                from the server.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={() => {
+                setIsDeleteDialogOpen(false);
+                setSelectedUser(null);
+              }}>
+                Cancel
+              </AlertDialogCancel>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <AlertDialogAction 
+                  onClick={handleDeleteUserConfirm}
+                  className="relative overflow-hidden group"
+                >
+                  <span className="relative z-10">Delete</span>
+                  <motion.div
+                    className="absolute inset-0 bg-destructive/20"
+                    initial={{ x: "-100%" }}
+                    animate={{ x: "0%" }}
+                    transition={{ duration: 0.4 }}
+                  />
+                </AlertDialogAction>
+              </motion.div>
+            </AlertDialogFooter>
+          </motion.div>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </motion.div>
   );
 }
 

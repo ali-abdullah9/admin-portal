@@ -8,26 +8,54 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { LockKeyhole } from "lucide-react";
 import { useAuth } from "../AuthProvider";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
+  const router = useRouter();
   
   // Three.js container reference
   const canvasRef = useRef<HTMLDivElement>(null);
   
+  // Check if already authenticated on load
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/dashboard'); // Replace with your dashboard path
+    }
+  }, [isAuthenticated, router]);
+
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Add a small delay to simulate authentication process
-    setTimeout(() => {
-      login(username, password);
+    try {
+      // Add a small delay to simulate authentication process
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Perform login
+      const success = await login(username, password);
+      
+      if (success) {
+        // Store authentication token in localStorage
+        localStorage.setItem('authToken', 'your-auth-token-here'); // Replace with your actual token
+        localStorage.setItem('user', JSON.stringify({ username }));
+        
+        // Redirect to dashboard
+        router.push('/'); // Replace with your dashboard path
+      } else {
+        // Handle failed login
+        console.error("Login failed");
+        // You could add error state and display a message here
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
   
   // Initialize Three.js scene
@@ -146,6 +174,13 @@ export default function LoginPage() {
     };
   }, []);
   
+  // If already authenticated, don't show login form (prevents flash of login screen)
+  if (isAuthenticated) {
+    return <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">Redirecting to dashboard...</div>
+    </div>;
+  }
+  
   return (
     <>
       {/* Three.js Canvas Container - Full screen background */}
@@ -155,7 +190,7 @@ export default function LoginPage() {
       />
       
       {/* Login Form */}
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center ">
         <Card className="w-full max-w-md shadow-lg border-primary/20 backdrop-blur-sm bg-background/70">
           <CardHeader className="space-y-2 text-center">
             <div className="flex justify-center mb-4">

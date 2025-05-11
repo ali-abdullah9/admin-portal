@@ -3,7 +3,7 @@ import TabComponent from "@/components/TabComponent";
 export default function Home() {
   return (
     <div>
-          <div >
+          <div>
           <TabComponent />    
           </div>
     </div>
