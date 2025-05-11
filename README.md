@@ -122,15 +122,15 @@ The admin portal is restricted to authorized administrators using a secure authe
 
 ## Screenshots
 
-![Dashboard view ](public/dashboard.png)
-*Dashboard view *
+![Dashboard view ](public/Dashboard.png)
+*Dashboard view*
 ![Dashboard view with Access Log](public/dashboard-accessLog.png)
 *Dashboard view with Access Log*
-![Dashboard view with analytics](public/dashboard-analytics.png)
+![Dashboard view with analytics](public/Dashboard-Analytics.png)
 *Dashboard view with analytics*
 ![Dashboard view with Add User Form](public/dashboard-addUsers.png)
 *Dashboard view with Add User Form*
-![Dashboard view with Edit User Form](public/dashboard-editUser.png)
+![Dashboard view with Edit User Form](public/Dashboard-EditUser.png)
 *Dashboard view with Edit User Form*
 
 ![User management interface](public/users.png)
