@@ -12,7 +12,7 @@ import { toast } from "sonner";
 
 // Define authorized admin users
 const AUTHORIZED_ADMINS = [
-  { username: "admin1", password: "admin123", role: "Admin" },
+  { username: "admin1", password: "Nust@cAdmin123", role: "Admin" },
   { username: "admin2", password: "admin456", role: "Admin" },
   { username: "moderator", password: "mod123", role: "Moderator" },
 ];
